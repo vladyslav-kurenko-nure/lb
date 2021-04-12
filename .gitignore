@@ -1,0 +1,7 @@
+.idea
+__pycache__
+migrations
+static
+venv
+db.sqlite3
+settings.py

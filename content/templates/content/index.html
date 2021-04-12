@@ -1,0 +1,41 @@
+{% extends 'content/base.html' %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+	  <div class="col-4 text-truncate">
+		  <ul>
+			{% if cat_selected == 0 %}
+				<li>Все категории</li>
+			{% else %}
+				<li><a href="{% url 'home' %}">Все категории</a></li>
+			{% endif %}
+
+			{% for c in cats %}
+			{% if c.link__count > 0 %}
+				{% if c.pk == cat_selected %}
+					<li class="selected">{{c.name}}</li>
+				{% else %}
+					<li><a href="{{ c.get_absolute_url }}">{{c.name}}</a></li>
+				{% endif %}
+			{% endif %}
+			{% endfor %}
+		</ul>
+	  </div>
+	  <div class="col-8">
+		  {% if perms.content.add_link %}
+			<a class="mr-3" href="{% url 'add_page' %}">Добавить</a> <br> <br>
+		  {% endif %}
+
+		  {% for c in link %}
+			<div class="alert alert-primary" role="alert">
+				<h2 class="text-truncate">{{c.title}}</h2>
+				<div class="text-truncate">{{ c.content }} </div> <br>
+				<a href="{{ c.get_absolute_url }}" target="_blank">Подробнее</a> <br>
+				<a href="{% url 'open' %}?next={{c.content}}&slug={{c.slug}}" target="_blank">Перейти</a>
+			</div>
+		  {% endfor %}
+	  </div>
+</div>
+</div>
+{% endblock %}
