@@ -31,8 +31,11 @@
 			<div class="alert alert-primary" role="alert">
 				<h2 class="text-truncate">{{c.title}}</h2>
 				<div class="text-truncate">{{ c.content }} </div> <br>
+				{% if perms.content.view_link %}
 				<a href="{{ c.get_absolute_url }}" target="_blank">Подробнее</a> <br>
-				<a href="{% url 'open' %}?next={{c.content}}&slug={{c.slug}}" target="_blank">Перейти</a>
+				<!--<a href="{% url 'open' %}?next={{c.content}}&slug={{c.slug}}" target="_blank">Перейти</a>-->
+				<a href="{% url 'open' %}?next={{c.content}}&id={{c.id}}" target="_blank">Посмотреть</a>
+				{% endif %}
 			</div>
 		  {% endfor %}
 	  </div>

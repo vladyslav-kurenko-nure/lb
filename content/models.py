@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class Link(models.Model):
@@ -35,4 +36,15 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+        ordering = ['id']
+
+
+class Statistic(models.Model):
+    lk = models.ForeignKey('Link', on_delete=models.PROTECT, verbose_name="Ссылка")
+    time = models.DateTimeField(auto_now_add=True, verbose_name="Время перехода")
+    usr = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="Пользователь")
+
+    class Meta:
+        verbose_name = 'Статистика'
+        verbose_name_plural = 'Статистика'
         ordering = ['id']

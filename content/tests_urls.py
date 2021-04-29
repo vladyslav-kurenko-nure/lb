@@ -54,6 +54,11 @@ class ViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_view_status_code(self):
+        self.user = User.objects.create(username='testuser', password='12345', is_active=True, is_staff=True, is_superuser=True)
+        self.user.set_password('12345')
+        self.user.save()
+        user = authenticate(username='testuser', password='12345')
+        login = self.client.login(username='testuser', password='12345')
         response = self.client.get(reverse('post', args=('slug1',)))
         self.assertEquals(response.status_code, 200)
 

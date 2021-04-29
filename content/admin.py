@@ -17,5 +17,11 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 
+class StatisticAdmin(admin.ModelAdmin):
+    list_display = ('id', 'lk', 'time', 'usr')
+    list_display_links = ('id', 'lk', 'time', 'usr')
+
+
 admin.site.register(Link, LinkAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Statistic, StatisticAdmin)

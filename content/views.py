@@ -52,14 +52,17 @@ class LinkDeleteView(DataMixin, DeleteView):
         return dict(list(context.items()) + list(c_def.items()))
 
 
-class LinkDetailView(DataMixin, DetailView):
+class LinkDetailView(LoginRequiredMixin, DataMixin, DetailView):
     model = Link
     template_name = 'content/detail.html'
     slug_url_kwarg = 'post_slug'
     context_object_name = 'link'
+    login_url = 'login'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        st = Statistic.objects.filter(lk=context['link'].id).count()
+        context['st'] = st
         c_def = self.get_user_context(title=context['link'])
         return dict(list(context.items()) + list(c_def.items()))
 
@@ -120,6 +123,7 @@ def pageNotFound(request, exception):
 
 
 def countofclick(request):
-    st = Link.objects.get(slug=request.GET.get('slug'))
-    Link.objects.filter(slug=request.GET.get('slug')).update(stat=st.stat+1)
+    #st = Link.objects.get(slug=request.GET.get('slug'))
+    #Link.objects.filter(slug=request.GET.get('slug')).update(stat=st.stat+1)
+    Statistic.objects.create(lk=Link.objects.get(id=request.GET.get('id')), usr=request.user)
     return HttpResponseRedirect(request.GET.get('next'))

@@ -8,7 +8,8 @@ class ModelTest(TestCase):
         Category.objects.create(name='cat1', slug='catslug1')
         Category.objects.create(name='cat2', slug='catslug2')
         Link.objects.create(title='title1', slug='slug1', content='http://content1.ua', stat=0, cat_id=1)
-        Link.objects.create(title='title2', slug='slug2', content='http://content2.ua', stat=0, cat_id=1)
+
+        Statistic.objects.create(lk=Link.objects.create(title='title2', slug='slug2', content='http://content2.ua', stat=0, cat_id=1))
 
     def test_title_label(self):
         link = Link.objects.get(id=1)
@@ -67,3 +68,18 @@ class ModelTest(TestCase):
     def test_category_get_absolute_url(self):
         category = Category.objects.get(id=1)
         self.assertEquals(category.get_absolute_url(), '/category/catslug1/')
+
+    def test_statistic_lk_label(self):
+        stat = Statistic.objects.get(id=1)
+        field_label = stat._meta.get_field('lk').verbose_name
+        self.assertEquals(field_label, 'Ссылка')
+
+    def test_statistic_time_label(self):
+        stat = Statistic.objects.get(id=1)
+        field_label = stat._meta.get_field('time').verbose_name
+        self.assertEquals(field_label, 'Время перехода')
+
+    def test_statistic_usr_label(self):
+        stat = Statistic.objects.get(id=1)
+        field_label = stat._meta.get_field('usr').verbose_name
+        self.assertEquals(field_label, 'Пользователь')

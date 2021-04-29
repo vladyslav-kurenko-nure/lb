@@ -4,10 +4,10 @@
 <h1>{{ link.title }}</h1>
 <span>Категория: {{link.cat}}</span> <br>
 <span>Дата добавления: {{ link.time_create }}</span> <br>
-<a href="{% url 'open' %}?next={{link.content}}&slug={{link.slug}}" target="_blank">{{ link.content }}</a> <br>
+<a href="{% url 'open' %}?next={{link.content}}&id={{link.id}}" target="_blank">{{ link.content }}</a> <br>
 {% if perms.content.delete_link %}
     <span>ID: {{ link.id }}</span> <br>
-    <span>Кол-во переходов: {{ link.stat }}</span> <br>
+    <span>Кол-во переходов: {{ st }}</span> <br>
     <form method="POST" action="{% url 'delete_page' link.slug %}">{% csrf_token %}<input type="submit" value="Удалить"></form>
 {% endif %}
 {% endblock %}
